@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Info from './Info';
+import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
+import { Provider } from "react-redux";
+// import store from "./Kanbas/store";
+// import logo from './logo.svg';
+// import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          welcome to wefit
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <HashRouter>
+      {/* <Provider store={store}> */}
+        <div>
+          <Routes>
+            <Route path="/" element={<Navigate to="Info" />} />
+            <Route path="/Info/*" element={<Info />} />
+          </Routes>
+        </div>
+     {/* </Provider> */}
+    </HashRouter>
   );
 }
 

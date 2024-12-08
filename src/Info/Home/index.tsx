@@ -1,10 +1,27 @@
+import { Link } from "react-router-dom";
+
+
 export default function Home() {
     return (
         <div className="full-width">
-            {/* Hero Section */}
-            <div className="text-center bg-light py-5">
+            <div
+                className="text-center bg-light py-5"
+                style={{
+                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://st.hzcdn.com/simgs/pictures/home-gyms/skyline-park-at-easton-park-avalon-ll-dream-finders-homes-img~49e181e80c0a9504_14-1713-1-b33d3e6.jpg')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    height: "500px", // Adjust the height as needed
+                    color: "white", // Ensure text is visible on dark overlay
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
                 <div className="container">
-                    <h1 className="display-4 fw-bold">Work Out;<br /> Stay Fit;<br /> Stay Healthy</h1>
+                    <h1 className="display-4 fw-bold">
+                        Work Out;<br /> Stay Fit;<br /> Stay Healthy
+                    </h1>
                     <button className="btn btn-primary mt-4 px-4 py-2">Sign Up Now</button>
                 </div>
             </div>
@@ -14,9 +31,12 @@ export default function Home() {
                 <div className="container text-center">
                     <h2 className="fw-bold">Meet your trainers</h2>
                     <p className="text-muted">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Your fitness journey, on your schedule! Our virtual trainers bring the gym to you with on-demand workout videos designed to fit your lifestyle. Whether you're at home, traveling, or outdoors, you can access expert-guided sessions anytime, anywhere. Each trainer brings energy, expertise, and motivation straight to your screen, helping you stay consistent and crush your goals at your own pace. Let’s make fitness flexible, fun, and effective—just for you!
                     </p>
-                    <button className="btn btn-dark mt-3 px-4 py-2">About Us</button>
+                    {/* <button className="btn btn-dark mt-3 px-4 py-2">About Us</button> */}
+                    <Link to="/Info/About" className="btn btn-dark mt-3 px-4 py-2">
+                        About Us
+                    </Link>
                 </div>
             </div>
 
@@ -46,50 +66,39 @@ export default function Home() {
 
             {/* Features Section */}
             <div className="py-5">
-                <div className="container text-center">
-                    <h3 className="fw-bold mb-4">Try it out yourself</h3>
-                    <div className="row">
-                        <div className="col-md-4 mb-4">
-                            <div className="card shadow-sm">
-                                <div className="card-body">
-                                    <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-4 mb-4">
-                            <div className="card shadow-sm">
-                                <div className="card-body">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-4 mb-4">
-                            <div className="card shadow-sm">
-                                <div className="card-body">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
+                <div className="container text-center">                    <div className="row">
+                    <div className="col-md-4 mb-4">
+                        <div className="card shadow-sm">
+                            <div className="card-body">
+                                <p className="text-muted">
+                                    "The virtual workouts have completely transformed my routine! I love being able to follow along with my trainer’s energy and expertise anytime, anywhere. It feels like they’re right there with me!"
+                                    – Jessica R.
+                                </p>
                             </div>
                         </div>
                     </div>
+                    <div className="col-md-4 mb-4">
+                        <div className="card shadow-sm">
+                            <div className="card-body">
+                                <p className="text-muted">
+                                    "The on-demand videos are perfect for my busy schedule. The trainers make every session motivating and fun, and I’ve seen incredible results in just a few months!"
+                                    – Michael T.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4 mb-4">
+                        <div className="card shadow-sm">
+                            <div className="card-body">
+                                <p className="text-muted">
+                                    "I was skeptical about virtual training at first, but these videos are amazing! The trainers explain everything so clearly, and I love how easy it is to stay consistent with my workouts."
+                                    – Samantha L.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 className="fw-bold mb-4 mt-3">Start your workout now!</h3>
                 </div>
-            </div>
-
-            {/* Contact Section */}
-            <div className="bg-dark text-white py-5">
-                <div className="container" style={{ width: '100%' }}>
-                    <h3 className="fw-bold p-3">Contact Us</h3>
-                    <form className="p-3">
-                        <div className="mb-3">
-                            <input type="text" className="form-control" placeholder="Name" />
-                        </div>
-                        <div className="mb-3">
-                            <input type="email" className="form-control" placeholder="Email" />
-                        </div>
-                        <div className="mb-3">
-                            <textarea className="form-control" rows={3} placeholder="Message"></textarea>
-                        </div>
-                        <button type="submit" className="btn btn-primary px-4 py-2">Send</button>
-                    </form>
                 </div>
             </div>
         </div>

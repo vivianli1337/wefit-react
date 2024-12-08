@@ -1,16 +1,17 @@
 import { useLocation } from "react-router";
+import "./style.css";
 
 export default function TOC() {
     const { pathname } = useLocation();
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ width: '100%' }}>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark d-flex " style={{ padding: "0.5rem 1rem" }}>
             <div className="container wd">
-                <a className="navbar-brand" href="#/Info/Home">WeFit</a>
-                <ul className="nav nav-pills">
+                <a className="navbar-brand wefit-logo d-flex " href="#/Info/Home">WeFit</a>
+                <ul className="nav nav-pills me-3">
                     <li className="nav-item">
                         <a 
                             href="#/Info/Home" 
-                            className={`nav-link ${pathname.includes("Home") ? "fw-bold" : ""} text-white`}>
+                            className={`nav-link ${pathname.includes("Home") ? "fw-bold" : ""} npm text-white`}>
                             Home
                         </a>
                     </li>

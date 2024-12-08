@@ -2,6 +2,7 @@ import { Route, Routes, Navigate } from "react-router";
 import Home from "./Home";
 import About from "./About";
 import TOC from "./TOC";
+import Contact from "./contact";
 import "./style.css";
 // import store from "./store";
 import { Provider } from "react-redux";
@@ -21,6 +22,7 @@ export default function Info() {
                     <Route path="LogIn" element={<About />} />
                     <Route path="SignUp" element={<About />} />
                 </Routes>
+                <Contact />
             </div>
         // </Provider>
     );

@@ -1,10 +1,29 @@
-.nav-pills .nav-link.fw-bold {
-    font-weight: 700; 
-  }
+.wefit-logo {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 2rem; 
+    margin-left: -150px;
+    text-align: left;
+}
 
-  .full-width {
+.wefit {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 2rem; 
+}
+
+.nav-pills .nav-link.fw-bold {
+    font-weight: 700;
+}
+
+.nav {
+    font-size: 20px;
+}
+
+.full-width {
     width: 100vw;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+    /* Prevent horizontal scrolling */
 }
 
 body {
@@ -14,18 +33,77 @@ body {
 }
 
 .container-fluid {
-    max-width: 100%; /* Ensure it spans the entire width */
+    max-width: 100%;
     padding: 0 15px;
 }
 
 .row {
-    margin: 0; /* Remove default row margin */
+    margin: 0;
+    /* Remove default row margin */
 }
 
 .card {
-    width: 100%; /* Cards span full width of their container */
+    width: 100%;
+    /* Cards span full width of their container */
 }
 
-h1, h2, h3, p {
+h1,
+h2,
+h3,
+p {
     margin: 0 auto;
+}
+
+.hero-section {
+    padding: 5rem 0;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 300px;
+    background-color: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.mission-section {
+    background-color: #f8f9fa;
+}
+
+.mission-section h2 {
+    margin-bottom: 1rem;
+}
+
+.mission-section .row div {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: black;
+}
+
+.contact-section {
+    background-color: #000;
+    color: white;
+}
+
+.contact-section h3 {
+    margin-bottom: 1rem;
+}
+
+.contact-section .form-control {
+    border-radius: 0.25rem;
+}
+
+.contact-section .btn-primary {
+    padding: 0.5rem 2rem;
+    background-color: #007bff;
+    border: none;
+}
+
+.navbar {
+    overflow: visible;
+    padding: "0.5rem 1rem";
+    display: flex;
 }

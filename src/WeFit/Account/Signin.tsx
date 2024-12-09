@@ -81,7 +81,7 @@ export default function Signin() {
             lastName: "Doe",
             email: "johndoe@example.com",
             gender: "Male",
-            role: "User",
+            role: "Trainer",
         },
         {
             username: "janedoe",
@@ -90,7 +90,7 @@ export default function Signin() {
             lastName: "Doe",
             email: "janedoe@example.com",
             gender: "Female",
-            role: "Admin",
+            role: "Trainee",
         },
     ];
 

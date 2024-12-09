@@ -271,8 +271,7 @@ export default function Profile() {
                         onChange={(e) => setProfile({ ...profile, role: e.target.value })}
                     >
                         <option>Select Role</option>
-                        <option>User</option>
-                        <option>Admin</option>
+                        <option>Trainee</option>
                         <option>Trainer</option>
                     </select>
                 </div>

@@ -22,13 +22,22 @@ export default function Dashboard() {
         programs: []
     });
 
+    // const [showLikedOnly, setShowLikedOnly] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
+    // const [newProgram, setNewProgram] = useState({ name: "", description: "" });
+    // const [editingProgram, setEditingProgram] = useState<{ id: number; name: string; description: string } | null>(
+    //     null
+    // );
     const [showLikedOnly, setShowLikedOnly] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [showExistingProgramModal, setShowExistingProgramModal] = useState(false);
     const [newProgram, setNewProgram] = useState({ name: "", description: "" });
+    const [existingPrograms, setExistingPrograms] = useState<
+        { id: number; name: string; description: string }[]
+    >([]);
     const [editingProgram, setEditingProgram] = useState<{ id: number; name: string; description: string } | null>(
         null
     );
-
     useEffect(() => {
         const fetchData = async () => {
             const simulatedData: DashboardData = {
@@ -43,7 +52,13 @@ export default function Dashboard() {
                     liked: false
                 }))
             };
+            const simulatedExistingPrograms = Array.from({ length: 4 }, (_, i) => ({
+                id: i + 7,
+                name: `Existing Program ${i + 7}`,
+                description: `This is a description for Existing Program ${i + 7}.`
+            }));
             setData(simulatedData);
+            setExistingPrograms(simulatedExistingPrograms);
         };
 
         fetchData();
@@ -66,9 +81,17 @@ export default function Dashboard() {
         setShowModal(true);
     };
 
+    const handleShowExistingProgramModal = () => {
+        setShowExistingProgramModal(true);
+    };
+
     const handleCloseModal = () => {
         setShowModal(false);
         setEditingProgram(null);
+    };
+
+    const handleCloseExistingProgramModal = () => {
+        setShowExistingProgramModal(false);
     };
 
     const handleAddProgram = () => {
@@ -86,6 +109,35 @@ export default function Dashboard() {
         }
     };
 
+    // const addExistingProgram = (programId: number) => {
+    //     const selectedProgram = existingPrograms.find((program) => program.id === programId);
+    //     if (selectedProgram) {
+    //         setData((prevState) => ({
+    //             ...prevState,
+    //             programs: [...prevState.programs, { ...selectedProgram, liked: false }]
+    //         }));
+    //         setExistingPrograms((prev) => prev.filter((program) => program.id !== programId)); // Remove added program from existing list
+    //         setShowExistingProgramModal(false);
+    //     }
+    // };
+    const addExistingProgram = (programId: number) => {
+        const selectedProgram = existingPrograms.find((program) => program.id === programId);
+        if (selectedProgram) {
+            setData((prevState) => ({
+                ...prevState,
+                programs: [...prevState.programs, { ...selectedProgram, liked: false }]
+            }));
+            setExistingPrograms((prev) => prev.filter((program) => program.id !== programId)); // Remove added program from existing list
+        }
+    };
+    // const filteredExistingPrograms = existingPrograms.filter(
+    //     (existingProgram) =>
+    //         !data.programs.some((program) => program.id === existingProgram.id) // Exclude already added programs
+    // );
+    const filteredExistingPrograms = existingPrograms.filter(
+        (existingProgram) =>
+            !data.programs.some((program) => program.id === existingProgram.id) // Exclude already added programs
+    );
     const handleEditProgram = (id: number) => {
         const programToEdit = data.programs.find((program) => program.id === id);
         if (programToEdit) {
@@ -111,13 +163,22 @@ export default function Dashboard() {
         setShowModal(false);
     };
 
+    // const deleteProgram = (id: number) => {
+    //     setData((prevState) => ({
+    //         ...prevState,
+    //         programs: prevState.programs.filter((program) => program.id !== id)
+    //     }));
+    // };
     const deleteProgram = (id: number) => {
-        setData((prevState) => ({
-            ...prevState,
-            programs: prevState.programs.filter((program) => program.id !== id)
-        }));
+        const deletedProgram = data.programs.find((program) => program.id === id);
+        if (deletedProgram) {
+            setData((prevState) => ({
+                ...prevState,
+                programs: prevState.programs.filter((program) => program.id !== id)
+            }));
+            setExistingPrograms((prev) => [...prev, { id: deletedProgram.id, name: deletedProgram.name, description: deletedProgram.description }]); // Add deleted program back to existing list
+        }
     };
-
     const filteredPrograms = showLikedOnly
         ? data.programs.filter((program) => program.liked)
         : data.programs;
@@ -130,8 +191,14 @@ export default function Dashboard() {
                     <FaPlus
                         className="text-primary ms-3"
                         style={{ cursor: "pointer", fontSize: "1.5rem" }}
-                        title="Add Program"
+                        title="Add New Program"
                         onClick={handleShowModal}
+                    />
+                    <FaPlus
+                        className="text-success ms-3"
+                        style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                        title="Add Existing Program"
+                        onClick={handleShowExistingProgramModal}
                     />
                     {showLikedOnly ? (
                         <FaHeart
@@ -150,6 +217,41 @@ export default function Dashboard() {
                     )}
                 </h1>
                 <hr />
+                {/* Existing Program Modal */}
+                <Modal show={showExistingProgramModal} onHide={handleCloseExistingProgramModal} centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Select Existing Program</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {filteredExistingPrograms.length > 0 ? (
+                            <ul className="list-group">
+                                {filteredExistingPrograms.map((program) => (
+                                    <li
+                                        key={program.id}
+                                        className="list-group-item d-flex justify-content-between align-items-center"
+                                    >
+                                        <span>
+                                            <strong>{program.name}</strong> - {program.description}
+                                        </span>
+                                        <Button
+                                            variant="success"
+                                            onClick={() => addExistingProgram(program.id)}
+                                        >
+                                            Add
+                                        </Button>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-center">No more programs available to add.</p>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseExistingProgramModal}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
                 {/* Statistics Section */}
                 <div className="row text-center mb-4">
@@ -170,6 +272,7 @@ export default function Dashboard() {
                         <p>Completed Workouts</p>
                     </div>
                 </div>
+
 
                 {/* Programs Section */}
                 <div className="row g-4">
@@ -257,7 +360,7 @@ export default function Dashboard() {
             {/* Modal for Adding/Editing Program */}
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>{editingProgram ? "Edit Program" : "Add Program"}</Modal.Title>
+                    <Modal.Title>{editingProgram ? "Edit Program" : "Add New Program"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>

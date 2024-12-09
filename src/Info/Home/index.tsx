@@ -22,7 +22,9 @@ export default function Home() {
                     <h1 className="display-4 fw-bold">
                         Work Out;<br /> Stay Fit;<br /> Stay Healthy
                     </h1>
-                    <button className="btn btn-primary mt-4 px-4 py-2">Sign Up Now</button>
+                    <Link to="/wefit/signup">
+                        <button className="btn btn-primary mt-4 px-4 py-2">Sign Up Now</button>
+                    </Link>
                 </div>
             </div>
 

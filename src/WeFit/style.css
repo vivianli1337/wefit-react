@@ -1,0 +1,94 @@
+/* General page styling */
+.signup-page {
+    font-family: "Arial", sans-serif;
+    color: black;
+    background-color: white;
+}
+
+.wefit-logo {
+    font-size: 1.5rem; /* Adjust size for better visibility */
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+.wefit-logo:hover {
+    text-decoration: none;
+    color: #ccc; /* Change the hover color */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+}
+
+/* Input fields and labels */
+.form-control,
+.form-select {
+    border-radius: 20px;
+    border: 1px solid black;
+    padding: 10px 15px;
+    font-size: 1rem;
+}
+
+/* Button styling */
+.btn-outline-dark {
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-outline-dark:hover {
+    background-color: black;
+    color: white;
+}
+
+.btn-dark {
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+h1 {
+    font-family: "Arial Black", sans-serif;
+}
+
+.bg-light {
+    border: 1px solid #ddd;
+}
+
+button {
+    font-weight: bold;
+}
+
+.program-box {
+    width: 100%;
+    height: 150px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    position: relative;
+}
+
+.list-group-item {
+    background-color: #fff5f5;
+    border: 1px solid #ffc9c9;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.list-group-item h5 {
+    color: #d9534f;
+}
+
+.list-group-item p {
+    color: #6c757d;
+}
+
+.fa-plus {
+    transition: transform 0.2s;
+}
+
+.fa-plus:hover {
+    transform: scale(1.2);
+}

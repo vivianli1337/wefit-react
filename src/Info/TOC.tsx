@@ -17,7 +17,7 @@ export default function TOC() {
                     </li>
                     <li className="nav-item">
                         <a 
-                            href="#/Info/Program" 
+                            href="#/Wefit/dashboard" 
                             className={`nav-link ${pathname.includes("Program") ? "fw-bold" : ""} text-white`}>
                             Program
                         </a>
@@ -31,22 +31,22 @@ export default function TOC() {
                     </li>
                     <li className="nav-item">
                         <a 
-                            href="#/Info/CommunityForum" 
+                            href="#/Wefit/communityforum" 
                             className={`nav-link ${pathname.includes("CommunityForum") ? "fw-bold" : ""} text-white`}>
                             Community Forum
                         </a>
                     </li>
                     <li className="nav-item">
                         <a 
-                            href="#/Info/LogIn" 
-                            className={`nav-link ${pathname.includes("LogIn") ? "fw-bold" : ""} text-white`}>
+                            href="#/wefit/login" 
+                            className={`nav-link ${pathname.includes("login") ? "fw-bold" : ""} text-white`}>
                             Log In
                         </a>
                     </li>
                     <li className="nav-item">
                         <a 
-                            href="#/Info/SignUp" 
-                            className={`nav-link ${pathname.includes("SignUp") ? "fw-bold" : ""} text-white`}>
+                            href="#/wefit/signup" 
+                            className={`nav-link ${pathname.includes("signop") ? "fw-bold" : ""} text-white`}>
                             Sign Up
                         </a>
                     </li>

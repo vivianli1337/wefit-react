@@ -8,7 +8,6 @@ import Programs from "./Program";
 import CommunityForum from "./CommunityForum";
 import ProtectedRoute from "./Account/ProtectedRoute";
 
-
 export default function WeFit() {
     return (
         <div id="wd-wefit">

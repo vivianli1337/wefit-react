@@ -28,7 +28,7 @@ export default function Programs() {
                 <Routes>
                     <Route path="/" element={<Navigate to="workouts" />} />
                     <Route path="workouts" element={<Workouts />} />
-                    <Route path="workouts/:wId" element={<WorkoutEditor />} />
+                    <Route path="workouts/:workoutId" element={<WorkoutEditor />} />
                     <Route path="People" element={<PeopleTable />} />
                 </Routes>
             </div>

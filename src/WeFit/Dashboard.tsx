@@ -21,13 +21,7 @@ export default function Dashboard() {
         completedWorkouts: 0,
         programs: []
     });
-
-    // const [showLikedOnly, setShowLikedOnly] = useState(false);
-    // const [showModal, setShowModal] = useState(false);
-    // const [newProgram, setNewProgram] = useState({ name: "", description: "" });
-    // const [editingProgram, setEditingProgram] = useState<{ id: number; name: string; description: string } | null>(
-    //     null
-    // );
+    
     const [showLikedOnly, setShowLikedOnly] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [showExistingProgramModal, setShowExistingProgramModal] = useState(false);
@@ -38,6 +32,13 @@ export default function Dashboard() {
     const [editingProgram, setEditingProgram] = useState<{ id: number; name: string; description: string } | null>(
         null
     );
+    const removeProgramById = (id: number) => {
+        setData((prevState) => ({
+            ...prevState,
+            programs: prevState.programs.filter((program) => program.id !== id),
+        }));
+    };
+    
     useEffect(() => {
         const fetchData = async () => {
             const simulatedData: DashboardData = {
@@ -130,10 +131,7 @@ export default function Dashboard() {
             setExistingPrograms((prev) => prev.filter((program) => program.id !== programId)); // Remove added program from existing list
         }
     };
-    // const filteredExistingPrograms = existingPrograms.filter(
-    //     (existingProgram) =>
-    //         !data.programs.some((program) => program.id === existingProgram.id) // Exclude already added programs
-    // );
+   
     const filteredExistingPrograms = existingPrograms.filter(
         (existingProgram) =>
             !data.programs.some((program) => program.id === existingProgram.id) // Exclude already added programs

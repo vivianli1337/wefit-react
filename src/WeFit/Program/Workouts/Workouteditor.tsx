@@ -454,6 +454,111 @@
 //     );
 // }
 
+// import { useParams, useNavigate, Link } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+// import { useEffect, useState } from "react";
+// import { addWorkout, updateWorkout } from "./reducer";
+
+// export default function WorkoutEditor() {
+//     const { workoutId, programId } = useParams<{ workoutId: string; programId: string }>();
+//     const { workouts } = useSelector((state: any) => state.workouts);
+//     const dispatch = useDispatch();
+//     const navigate = useNavigate();
+
+//     const [workout, setWorkout] = useState({
+//         _id: "",
+//         name: "",
+//         details: "",
+//         startDate: "",
+//         endDate: "",
+//         completed: false,
+//     });
+
+//     useEffect(() => {
+//         if (workoutId !== "new") {
+//             const existingWorkout = workouts.find((w: any) => w._id === workoutId);
+//             if (existingWorkout) {
+//                 setWorkout(existingWorkout);
+//             }
+//         }
+//     }, [workoutId, workouts]);
+
+//     const handleInputChange = (field: keyof typeof workout, value: string) => {
+//         setWorkout((prevWorkout) => ({ ...prevWorkout, [field]: value }));
+//     };
+
+//     const saveWorkout = () => {
+//         if (workout.name.trim() === "") {
+//             alert("Workout name cannot be empty!"); // Basic validation
+//             return;
+//         }
+    
+//         if (workoutId === "new") {
+//             const newWorkout = { ...workout, _id: new Date().getTime().toString() };
+//             dispatch(addWorkout(newWorkout));
+//         } else {
+//             dispatch(updateWorkout(workout));
+//         }
+    
+//         console.log("Workout saved successfully:", workout); // Debugging log
+//         navigate(`/wefit/program/${programId}/workouts`);
+//     };
+
+//     return (
+//         <div className="container">
+//             <h3>{workoutId === "new" ? "Add Workout" : "Edit Workout"}</h3>
+//             <div>
+//                 <div className="form-group mb-3">
+//                     <label htmlFor="workout-name">Workout Name</label>
+//                     <input
+//                         id="workout-name"
+//                         value={workout.name}
+//                         className="form-control"
+//                         onChange={(e) => handleInputChange("name", e.target.value)}
+//                     />
+//                 </div>
+//                 <div className="form-group mb-3">
+//                     <label htmlFor="workout-details">Details</label>
+//                     <textarea
+//                         id="workout-details"
+//                         value={workout.details}
+//                         className="form-control"
+//                         onChange={(e) => handleInputChange("details", e.target.value)}
+//                     />
+//                 </div>
+//                 <div className="form-group mb-3">
+//                     <label htmlFor="start-date">Start Date</label>
+//                     <input
+//                         type="date"
+//                         id="start-date"
+//                         value={workout.startDate}
+//                         className="form-control"
+//                         onChange={(e) => handleInputChange("startDate", e.target.value)}
+//                     />
+//                 </div>
+//                 <div className="form-group mb-3">
+//                     <label htmlFor="end-date">End Date</label>
+//                     <input
+//                         type="date"
+//                         id="end-date"
+//                         value={workout.endDate}
+//                         className="form-control"
+//                         onChange={(e) => handleInputChange("endDate", e.target.value)}
+//                     />
+//                 </div>
+//                 <div className="d-flex justify-content-end">
+//                     <Link to={`/wefit/program/${programId}/workouts`} className="btn btn-secondary me-2">
+//                         Cancel
+//                     </Link>
+//                     <button className="btn btn-success" onClick={saveWorkout}>
+//                         {workoutId === "new" ? "Add" : "Save"}
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -475,7 +580,19 @@ export default function WorkoutEditor() {
     });
 
     useEffect(() => {
-        if (workoutId !== "new") {
+        console.log("workoutId:", workoutId); // Debugging log
+        if (workoutId === "new") {
+            // Reset the form for a new workout
+            setWorkout({
+                _id: "",
+                name: "",
+                details: "",
+                startDate: "",
+                endDate: "",
+                completed: false,
+            });
+        } else {
+            // Populate the form with existing workout data
             const existingWorkout = workouts.find((w: any) => w._id === workoutId);
             if (existingWorkout) {
                 setWorkout(existingWorkout);
@@ -488,12 +605,19 @@ export default function WorkoutEditor() {
     };
 
     const saveWorkout = () => {
+        if (workout.name.trim() === "") {
+            alert("Workout name cannot be empty!"); // Basic validation
+            return;
+        }
+
         if (workoutId === "new") {
             const newWorkout = { ...workout, _id: new Date().getTime().toString() };
             dispatch(addWorkout(newWorkout));
         } else {
             dispatch(updateWorkout(workout));
         }
+
+        console.log("Workout saved successfully:", workout); // Debugging log
         navigate(`/wefit/program/${programId}/workouts`);
     };
 

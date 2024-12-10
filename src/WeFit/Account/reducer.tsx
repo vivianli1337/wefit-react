@@ -42,3 +42,37 @@
 
 // // Export the reducer for the store
 // export default accountSlice.reducer;
+
+
+// Action Types
+const SET_CURRENT_USER = "SET_CURRENT_USER";
+const CLEAR_CURRENT_USER = "CLEAR_CURRENT_USER";
+
+// Action Creators
+export const setCurrentUser = (user: any) => ({
+  type: SET_CURRENT_USER,
+  payload: user,
+});
+
+export const clearCurrentUser = () => ({
+  type: CLEAR_CURRENT_USER,
+});
+
+// Initial State
+const initialState = {
+  currentUser: null,
+};
+
+// Reducer
+const userReducer = (state = initialState, action: any) => {
+  switch (action.type) {
+    case SET_CURRENT_USER:
+      return { ...state, currentUser: action.payload };
+    case CLEAR_CURRENT_USER:
+      return { ...state, currentUser: null };
+    default:
+      return state;
+  }
+};
+
+export default userReducer;

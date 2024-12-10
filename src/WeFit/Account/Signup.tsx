@@ -97,35 +97,38 @@ import "../style.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
+import * as client from "./client";
 
-export default function SignUpPage() {
+export default function Signup() {
     const [user, setUser] = useState<any>({});
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // Mocked user database
-    const mockUsers = [];
-
-    // Mocked sign-up function
     const signup = async () => {
         try {
-            // Simulate adding the user to the mock database
-            const newUser = {
-                ...user,
-                id: mockUsers.length + 1, // Assign unique ID
-            };
-
-            mockUsers.push(newUser); // Add user to the mock database
-
-            // Dispatch the new user to Redux
+            if (
+                !user.username ||
+                !user.password ||
+                !user.email ||
+                !user.firstName ||
+                !user.lastName ||
+                !user.gender ||
+                !user.role
+            ) {
+                alert("All fields are required.");
+                return;
+            }
+    
+            // Call the signup API with the complete user object
+            const newUser = await client.signup(user);
             dispatch(setCurrentUser(newUser));
-
-            // Navigate to the dashboard after successful sign-up
             navigate("/wefit/dashboard");
         } catch (error) {
             console.error("Sign-up failed:", error);
+            alert("Sign-up failed. Please check your input and try again.");
         }
     };
+    
 
     return (
         <div className="signup-page">
@@ -193,34 +196,34 @@ export default function SignUpPage() {
                         />
                     </div>
 
-                    {/* Gender */}
-                    <div className="mb-3 text-start">
-                        <label className="form-label">Gender</label>
-                        <select
-                            className="form-select"
-                            value={user.gender || ""}
-                            onChange={(e) => setUser({ ...user, gender: e.target.value })}
-                        >
-                            <option>Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
+                   {/* Gender */}
+<div className="mb-3 text-start">
+    <label className="form-label">Gender</label>
+    <select
+        className="form-select"
+        value={user.gender || ""}
+        onChange={(e) => setUser({ ...user, gender: e.target.value })}
+    >
+        <option>Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
 
-                    {/* Role */}
-                    <div className="mb-3 text-start">
-                        <label className="form-label">Role</label>
-                        <select
-                            className="form-select"
-                            value={user.role || ""}
-                            onChange={(e) => setUser({ ...user, role: e.target.value })}
-                        >
-                            <option>Select Role</option>
-                            <option value="trainee">Trainee</option>
-                            <option value="trainer">Trainer</option>
-                        </select>
-                    </div>
+{/* Role */}
+<div className="mb-3 text-start">
+    <label className="form-label">Role</label>
+    <select
+        className="form-select"
+        value={user.role || ""}
+        onChange={(e) => setUser({ ...user, role: e.target.value })}
+    >
+        <option>Select Role</option>
+        <option value="TRAINEE">Trainee</option>
+        <option value="TRAINER">Trainer</option>
+    </select>
+</div>
 
                     {/* Buttons */}
                     <div className="d-flex justify-content-center mt-4">

@@ -114,45 +114,74 @@
 //         </div>
 //     );
 // }
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../style.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser, clearCurrentUser } from "./reducer";
+import * as client from "./client";
 
 export default function Profile() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // Access the current user from Redux
-    const currentUser = useSelector((state: any) => state.account.currentUser);
+    const currentUser = useSelector((state: any) => state.account?.currentUser);
 
     // Local state to handle editable profile fields
     const [profile, setProfile] = useState<any>(currentUser || {});
 
+    // Fetch Profile on Component Mount
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const fetchedProfile = await client.getProfile();
+                dispatch(setCurrentUser(fetchedProfile)); // Update Redux store
+                setProfile(fetchedProfile); // Set local profile state
+            } catch (error) {
+                console.error("Failed to fetch profile:", error);
+                navigate("/wefit/login"); // Redirect to login if unauthorized
+            }
+        };
+
+        if (!currentUser) {
+            fetchProfile();
+        }
+    }, [currentUser, dispatch, navigate]);
+
     // Update Profile
-    const updateProfile = () => {
+    const updateProfile = async () => {
         if (!profile.username || !profile.email) {
             alert("Username and Email are required!");
             return;
         }
 
-        // Dispatch the updated profile to Redux
-        dispatch(setCurrentUser(profile));
-        alert("Profile updated successfully!");
-        navigate("/wefit/dashboard"); // Redirect to the dashboard
+        try {
+            const updatedProfile = await client.updateUser(profile._id, profile);
+            dispatch(setCurrentUser(updatedProfile)); // Update Redux store
+            alert("Profile updated successfully!");
+            navigate("/wefit/dashboard"); // Redirect to dashboard
+        } catch (error) {
+            console.error("Failed to update profile:", error);
+            alert("Failed to update profile. Please try again.");
+        }
     };
 
     // Log Out
-    const logOut = () => {
-        dispatch(clearCurrentUser()); // Clear Redux state
-        navigate("/wefit/login"); // Redirect to login
+    const logOut = async () => {
+        try {
+            await client.logout();
+            dispatch(clearCurrentUser()); // Clear Redux state
+            navigate("/wefit/login"); // Redirect to login
+        } catch (error) {
+            console.error("Logout failed:", error);
+            alert("Failed to log out. Please try again.");
+        }
     };
 
     // Cancel Editing
     const cancelUpdate = () => {
-        navigate("/wefit/dashboard"); // Redirect to the dashboard
+        navigate("/wefit/dashboard"); // Redirect to dashboard
     };
 
     return (
@@ -271,8 +300,8 @@ export default function Profile() {
                         onChange={(e) => setProfile({ ...profile, role: e.target.value })}
                     >
                         <option>Select Role</option>
-                        <option>Trainee</option>
-                        <option>Trainer</option>
+                        <option>TRAINEE</option>
+                        <option>TRAINER</option>
                     </select>
                 </div>
 

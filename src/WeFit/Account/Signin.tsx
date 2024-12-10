@@ -66,53 +66,23 @@ import "../style.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
+import * as client from "./client";
 
 export default function Signin() {
     const [credentials, setCredentials] = useState<any>({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Mocked user data
-    const mockUsers = [
-        {
-            username: "johndoe",
-            password: "password123",
-            firstName: "John",
-            lastName: "Doe",
-            email: "johndoe@example.com",
-            gender: "Male",
-            role: "Trainer",
-        },
-        {
-            username: "janedoe",
-            password: "securepass",
-            firstName: "Jane",
-            lastName: "Doe",
-            email: "janedoe@example.com",
-            gender: "Female",
-            role: "Trainee",
-        },
-    ];
-
-    // Mocked sign-in function
-    const signin = (e: React.FormEvent) => {
-        e.preventDefault(); // Prevent form submission reload
-        const user = mockUsers.find(
-            (u) =>
-                u.username === credentials.username &&
-                u.password === credentials.password
-        );
-
-        if (!user) {
+    const signin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const user = await client.login(credentials);
+            dispatch(setCurrentUser(user));
+            navigate("/wefit/dashboard");
+        } catch (error) {
+            console.error("Signin failed:", (error as Error).message);
             alert("Invalid username or password.");
-            return;
         }
-
-        // Dispatch the authenticated user to Redux
-        dispatch(setCurrentUser(user));
-
-        // Navigate to the dashboard after successful sign-in
-        navigate("/wefit/dashboard");
     };
 
     return (

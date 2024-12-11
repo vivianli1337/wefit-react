@@ -1,195 +1,3 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { addWorkout, updateWorkout } from "./workoutReducer";
-import { fetchAllExercises, fetchExercisesByBodyPart } from "./client"; // Added for API integration
-
-export default function WorkoutEditor() {
-    const { workoutId, programId } = useParams<{ workoutId: string; programId: string }>();
-    const { workouts } = useSelector((state: any) => state.workouts);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    interface Exercise {
-        id: string;
-        name: string;
-        target: string;
-        equipment: string;
-        gifUrl: string;
-        reps: string;
-        sets: string;
-        duration: string;
-        [key: string]: any; // To accommodate additional properties from API
-    }
-
-    const [workout, setWorkout] = useState<{ _id: string; exercises: Exercise[] }>({
-        _id: "",
-        exercises: [], // Modified: Array of exercises
-    });
-
-    const [searchQuery, setSearchQuery] = useState(""); // Added: For exercise search by name
-    const [bodyPart, setBodyPart] = useState(""); // Added: For filtering by body part
-    const [exerciseResults, setExerciseResults] = useState([]); // Added: Stores fetched exercises
-    const [selectedExercise, setSelectedExercise] = useState<any>(null); // Added: Selected exercise
-
-    const [customFields, setCustomFields] = useState({ reps: "", sets: "", duration: "" }); // Added: User input fields for missing details
-
-    useEffect(() => {
-        if (workoutId === "new") {
-            setWorkout({ _id: "", exercises: [] });
-        } else {
-            const existingWorkout = workouts.find((w: any) => w._id === workoutId);
-            if (existingWorkout) {
-                setWorkout(existingWorkout);
-            }
-        }
-    }, [workoutId, workouts]);
-
-    const searchExercises = async () => {
-        // Modified: Fetch exercises from external API
-        const results = bodyPart
-            ? await fetchExercisesByBodyPart(bodyPart)
-            : await fetchAllExercises();
-        setExerciseResults(results);
-    };
-
-    const addExerciseToWorkout = () => {
-        if (selectedExercise) {
-            const exerciseWithDetails = {
-                ...selectedExercise,
-                ...customFields, // Merge API data with user-defined fields
-            };
-            setWorkout((prevWorkout) => ({
-                ...prevWorkout,
-                exercises: [...prevWorkout.exercises, exerciseWithDetails],
-            }));
-            setSelectedExercise(null);
-            setCustomFields({ reps: "", sets: "", duration: "" });
-        }
-    };
-
-    const saveWorkout = () => {
-        if (workout.exercises.length === 0) {
-            alert("Please add at least one exercise!");
-            return;
-        }
-        if (workoutId === "new") {
-            dispatch(addWorkout({ ...workout, _id: new Date().getTime().toString() }));
-        } else {
-            dispatch(updateWorkout(workout));
-        }
-        navigate(`/wefit/program/${programId}/workouts`);
-    };
-
-    return (
-        <div className="container">
-            <h3>{workoutId === "new" ? "Add Workout" : "Edit Workout"}</h3>
-
-            {/* Search Section */}
-            <div className="form-group mb-3">
-                <label>Search Exercises</label>
-                <input
-                    className="form-control"
-                    placeholder="Search by name"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <select
-                    className="form-control mt-2"
-                    value={bodyPart}
-                    onChange={(e) => setBodyPart(e.target.value)}
-                >
-                    <option value="">All Body Parts</option>
-                    <option value="abs">Abs</option>
-                    <option value="chest">Chest</option>
-                    {/* Add more options */}
-                </select>
-                <button className="btn btn-primary mt-2" onClick={searchExercises}>
-                    Search
-                </button>
-            </div>
-
-            {/* Search Results */}
-            {exerciseResults.length > 0 && (
-                <div className="list-group mb-3">
-                    {exerciseResults.map((exercise: any) => (
-                        <button
-                            key={exercise.id}
-                            className="list-group-item list-group-item-action"
-                            onClick={() => setSelectedExercise(exercise)}
-                        >
-                            {exercise.name} - {exercise.target}
-                        </button>
-                    ))}
-                </div>
-            )}
-
-            {/* Selected Exercise Details */}
-            {selectedExercise && (
-                <div className="mb-3">
-                    <h5>{selectedExercise.name}</h5>
-                    <img src={selectedExercise.gifUrl} alt={selectedExercise.name} width="200" />
-                    <div className="form-group">
-                        <label>Reps</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            value={customFields.reps}
-                            onChange={(e) => setCustomFields({ ...customFields, reps: e.target.value })}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Sets</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            value={customFields.sets}
-                            onChange={(e) => setCustomFields({ ...customFields, sets: e.target.value })}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Duration (minutes)</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            value={customFields.duration}
-                            onChange={(e) =>
-                                setCustomFields({ ...customFields, duration: e.target.value })
-                            }
-                        />
-                    </div>
-                    <button className="btn btn-success mt-2" onClick={addExerciseToWorkout}>
-                        Add Exercise
-                    </button>
-                </div>
-            )}
-
-            {/* Workout Exercise List */}
-            <div>
-                <h5>Workout Exercises</h5>
-                <ul>
-                    {workout.exercises.map((exercise, idx) => (
-                        <li key={idx}>
-                            {exercise.name} - {exercise.reps} reps, {exercise.sets} sets
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            {/* Save Section */}
-            <div className="d-flex justify-content-end mt-3">
-                <Link to={`/wefit/program/${programId}/workouts`} className="btn btn-secondary me-2">
-                    Cancel
-                </Link>
-                <button className="btn btn-success" onClick={saveWorkout}>
-                    Save Workout
-                </button>
-            </div>
-        </div>
-    );
-}
-
-
 
 // // import { useParams, useNavigate } from "react-router";
 // // import { Link } from "react-router-dom";
@@ -486,7 +294,6 @@ export default function WorkoutEditor() {
 // // import { setWorkouts, addWorkout, updateWorkout } from "./reducer";
 // // import { RootState } from "../../store";
 
-
 // // // Mock API client
 // // const mockWorkoutsClient = {
 // //     fetchWorkoutsForProgram: async (programId: string) => {
@@ -685,14 +492,14 @@ export default function WorkoutEditor() {
 // //             alert("Workout name cannot be empty!"); // Basic validation
 // //             return;
 // //         }
-    
+
 // //         if (workoutId === "new") {
 // //             const newWorkout = { ...workout, _id: new Date().getTime().toString() };
 // //             dispatch(addWorkout(newWorkout));
 // //         } else {
 // //             dispatch(updateWorkout(workout));
 // //         }
-    
+
 // //         console.log("Workout saved successfully:", workout); // Debugging log
 // //         navigate(`/wefit/program/${programId}/workouts`);
 // //     };

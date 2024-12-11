@@ -9,14 +9,12 @@ import Signin from "../WeFit/Account/Signin";
 import CommunityForum from "../WeFit/CommunityForum";
 import InfoDash from "./Infodash";
 import InfoForum from "./Infoforum";
-
 // import store from "./store";
-import { Provider } from "react-redux";
+// import { Provider } from "react-redux";
 
 export default function Info() {
     return (
-        // <Provider 
-        // store={store}>
+        // <Provider store={store}>
             <div className="p-3" id="wd-info">
                 <TOC />
                 <Routes>

@@ -3,7 +3,7 @@ import axios from "axios";
 // Axios instance with credentials and base URL
 const axiosWithCredentials = axios.create({
   withCredentials: true,
-  baseURL: process.env.REACT_APP_REMOTE_SERVER || "http://localhost:4000/api",
+  baseURL: "http://localhost:4000/api",
 });
 
 const USERS_API = `${axiosWithCredentials.defaults.baseURL}/users`;

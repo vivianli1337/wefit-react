@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "./Account/reducer";
-import workoutsReducer from "./Program/Workouts/reducer";
+import workoutsReducer from "./Program/Workouts/workoutReducer";
 
 
 const store = configureStore({

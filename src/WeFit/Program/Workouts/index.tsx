@@ -246,11 +246,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaTrash, FaPlus } from "react-icons/fa";
-import { setWorkouts, toggleWorkoutCompletion, deleteWorkout } from "./reducer";
+import { setWorkouts, toggleWorkoutCompletion, deleteWorkout } from "./workoutReducer";
 
 const mockWorkouts = [
     {
         _id: "1",
+        exercises: [], // Added exercises property
         name: "Workout 1",
         details: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         startDate: "2023-12-01",
@@ -259,6 +260,7 @@ const mockWorkouts = [
     },
     {
         _id: "2",
+        exercises: [], // Added exercises property
         name: "Workout 2",
         details: "Another great workout for strength training.",
         startDate: "2023-12-01",

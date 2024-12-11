@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-bootstrap": "^0.32.37"
+    "@types/react-bootstrap": "^0.32.37",
+    "@types/wrap-ansi": "^8.0.2"
   }
 }

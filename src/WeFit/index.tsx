@@ -16,10 +16,10 @@ export default function WeFit() {
                 <Route path="/" element={<Navigate to="signup" />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/login" element={<SignInPage />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
                 <Route path="/profile" element={<ProtectedRoute> <Profile /> </ProtectedRoute>} />
                 <Route path="/program/:programId/*" element={<ProtectedRoute> <Programs /> </ProtectedRoute>} />
-                <Route path="/communityforum" element={ <CommunityForum />}/>
+                <Route path="/communityforum" element={ <ProtectedRoute> <CommunityForum /> </ProtectedRoute>}/>
             </Routes>
         </div>
     );
